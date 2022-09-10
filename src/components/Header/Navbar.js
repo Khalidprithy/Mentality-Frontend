@@ -1,57 +1,78 @@
-import { signOut } from 'firebase/auth';
-import React from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
-import auth from '../../firebase.init';
+import React, { useState } from "react";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { MdOutlineDashboard } from "react-icons/md";
+import { RiSettings4Line } from "react-icons/ri";
+import { TbReportAnalytics } from "react-icons/tb";
+import { AiOutlineUser, AiOutlineHeart, AiOutlineLogin } from "react-icons/ai";
+import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 
-const NavBar = () => {
-    const [user] = useAuthState(auth);
+const Navbar = () => {
 
-    const logout = () => {
-        signOut(auth);
-        localStorage.removeItem('accessToken');
-    };
+    const [user, setUser] = useAuthState(auth);
 
-
-    const menuItems = <>
-        <li className='text-white text-sm'><Link to='/'>Home</Link></li>
-        <li className='text-white text-sm'><Link to='/post'>Post</Link></li>
-        <li className='text-white text-sm'><Link to='/blog'>Blog</Link></li>
-    </>
-    const loginItems = <>
-
-        <li className='text-white'>
-            {
-                user ? <button onClick={logout} className="btn btn-ghost">Sign Out</button> : <Link className='text-sm font-semibold' to='/login'>LOGIN</Link>
-            }
-        </li>
-    </>
-
+    const menus = [
+        { name: "Dashboard", link: "/", icon: MdOutlineDashboard },
+        { name: "user", link: "/", icon: AiOutlineUser },
+        { name: "messages", link: "/", icon: FiMessageSquare },
+        { name: "analytics", link: "/", icon: TbReportAnalytics, margin: true },
+        { name: "File Manager", link: "/", icon: FiFolder },
+        { name: "Cart", link: "/", icon: FiShoppingCart },
+        { name: "Saved", link: "/", icon: AiOutlineHeart, margin: true },
+        { name: "Setting", link: "/", icon: RiSettings4Line },
+        { name: "Sign Up", link: "/signup", icon: AiOutlineLogin },
+    ];
+    const [open, setOpen] = useState(true);
     return (
-        <div className="navbar fixed top-0 z-50 bg-primary">
-            <div className="navbar-start">
-                <div className="dropdown">
-                    <label tabIndex="0" className="btn btn-ghost md:hidden lg:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-                    </label>
-                    <ul tabIndex="1" className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-primary rounded-box w-48">
-                        {menuItems}
-                    </ul>
+        <section className="flex gap-6">
+            <div
+                className={`bg-primary min-h-screen z-40 fixed ${open ? "w-60" : "w-16"
+                    } duration-700 text-gray-100 px-4`}
+            >
+                <div className="py-3 flex justify-end">
+                    <HiMenuAlt3
+                        size={26}
+                        className="cursor-pointer"
+                        onClick={() => setOpen(!open)}
+                    />
                 </div>
-                <Link to='/' className="btn btn-ghost normal-case text-xl text-white">Mentalality</Link>
+                <div className="mt-4 flex flex-col gap-4 relative">
+                    {menus?.map((menu, i) => (
+                        <Link
+                            to={menu?.link}
+                            key={i}
+                            className={` ${menu?.margin && "mt-5"
+                                } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+                        >
+                            <div>{React.createElement(menu?.icon, { size: "20" })}</div>
+                            <h2
+                                style={{
+                                    transitionDelay: `${i + 3}00ms`,
+                                }}
+                                className={`whitespace-pre duration-700 ${!open && "opacity-0 translate-x-28 overflow-hidden"
+                                    }`}
+                            >
+                                {menu?.name}
+                            </h2>
+                            <h2
+                                className={`${open && "hidden"
+                                    } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
+                            >
+                                {menu?.name}
+                            </h2>
+                        </Link>
+                    ))}
+                </div>
             </div>
-            <div className="navbar-center hidden md:flex lg:flex">
-                <ul className="menu menu-horizontal p-0">
-                    {menuItems}
-                </ul>
+            <div className={` ${!open && "hidden"} m-3 text-2xl text-secondary duration-500 ease-in-out font-semibold absolute left-14 z-50 `}>
+                Mentality
             </div>
-            <div className="navbar-end lg:flex">
-                <ul className="menu menu-horizontal p-0">
-                    {loginItems}
-                </ul>
+            <div>
             </div>
-        </div>
+        </section>
     );
 };
 
-export default NavBar;
+export default Navbar;

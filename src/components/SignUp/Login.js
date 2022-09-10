@@ -58,7 +58,6 @@ const Login = () => {
     return (
         <div className="hero min-h-screen bg-white">
             <div className="hero-content flex-col lg:flex-row">
-                <img src="https://i.ibb.co/51L3Mqz/20943394.jpg" className="max-w-sm rounded-lg hidden lg:block shadow-2xl" alt='' />
                 <div>
                     <div className="card w-80 bg-primary border rounded-md">
                         <div className="card-body">

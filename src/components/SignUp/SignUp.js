@@ -42,7 +42,6 @@ const SignUp = () => {
     return (
         <div className="hero min-h-screen bg-white">
             <div className="hero-content flex-col lg:flex-row">
-                <img src="https://www.tutoreye.com/images/home/login-illus-1.svg" className="max-w-sm rounded-lg hidden lg:block shadow-2xl" alt='' />
                 <div>
                     <div className="card w-80 bg-primary border rounded-md">
                         <div className="card-body">
