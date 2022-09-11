@@ -14,7 +14,7 @@ const Navbar = () => {
     const [user, setUser] = useAuthState(auth);
 
     const menus = [
-        { name: "Dashboard", link: "/", icon: MdOutlineDashboard },
+        { name: "Home", link: "/", icon: MdOutlineDashboard },
         { name: "user", link: "/", icon: AiOutlineUser },
         { name: "messages", link: "/", icon: FiMessageSquare },
         { name: "analytics", link: "/", icon: TbReportAnalytics, margin: true },
